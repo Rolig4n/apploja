@@ -1,6 +1,6 @@
 ## APPFEF
- Projeto de loja em mobile desenvolvido em **FLUTTER** pela faculdade integradas de fenandópolis - [FEF](http://fef.br/)
- obs* O banco de dados usado para essa aplicação foi o [Firebase](https://firebase.google.com/) da google.
+ Project developed in mobile **FLUTTER** and [Firebase](https://firebase.google.com/) with application database.
+ 
  
  ## Installation
  
@@ -15,4 +15,4 @@ vscode: main.dart (run)
 
 MIT
 
-**Projeto é uma Base para quem ta começando a desenvolver em flutter!!!**
+**Project with license mit!!!**
