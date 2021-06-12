@@ -1,4 +1,4 @@
-## APPFEF
+## APPLOJA - Product "sneakers and shoes"
  Project developed in mobile **FLUTTER** and [Firebase](https://firebase.google.com/) with application database.
  
  
