@@ -55,21 +55,22 @@ class Tenis {
       'tamanho': tamanho,
       'cor': cor,
     };
-     if(id == null){
+    if (id == null) {
       final doc = await firestore.collection('tenis').add(data);
       id = doc.documentID;
     } else {
       await firestoreRef.updateData(data);
     }
-  final List<String> updateImages = [];
+    final List<String> updateImages = [];
 
-    for(final newImage in newImages){
+    for (final newImage in newImages) {
       //Se array de imagem contém uma nova imagem, da update adicionando uma nova imagem
-      if(images.contains(newImage)){
+      if (images.contains(newImage)) {
         updateImages.add(newImage as String);
       } else {
         //Uuid gera um valor qualquer de id
-        final StorageUploadTask task = storageRef.child(Uuid().v1()).putFile(newImage as File);
+        final StorageUploadTask task =
+            storageRef.child(Uuid().v1()).putFile(newImage as File);
         //onComplete faz upload na imagem no firebase
         final StorageTaskSnapshot snapshot = await task.onComplete;
         final String url = await snapshot.ref.getDownloadURL() as String;
@@ -78,18 +79,24 @@ class Tenis {
       }
     }
     //Verifica se uma imagem não existe mais no array imagens
-     for(final image in images){
-      if(!newImages.contains(image)){
+    for (final image in images) {
+      if (!newImages.contains(image)) {
         try {
           final ref = await storage.getReferenceFromUrl(image);
           await ref.delete();
-        } catch (e){
+        } catch (e) {
           debugPrint('Falha ao deletar $image');
         }
       }
     }
-
     await firestoreRef.updateData({'images': updateImages});
   }
 
+  ItemSize findSize(String name) {
+    try {
+      return sizes.firstWhere((s) => s.name == name);
+    } catch (e) {
+      return null;
+    }
+  }
 }

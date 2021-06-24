@@ -1,4 +1,9 @@
+import 'dart:js';
+
+import 'package:appfef/models/cart_manager.dart';
+import 'package:appfef/models/tenis.dart';
 import 'package:appfef/models/tenis_manager.dart';
+import 'package:appfef/models/user_manager.dart';
 import 'package:appfef/pages/custom_drawer.dart';
 import 'package:appfef/pages/tenis_list.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +11,6 @@ import 'package:provider/provider.dart';
 import 'package:appfef/pages/search_dialog.dart';
 
 class TenisScreen extends StatelessWidget {
-
   static const router = '/tenis';
 
   @override
@@ -14,28 +18,28 @@ class TenisScreen extends StatelessWidget {
     return Scaffold(
       drawer: CustomDrawer(),
       appBar: AppBar(
-         title: Consumer<TenisManager>(
-          builder: (_, tenisManager, __){
-            if(tenisManager.search.isEmpty){
+        title: Consumer<TenisManager>(
+          builder: (_, tenisManager, __) {
+            if (tenisManager.search.isEmpty) {
               return const Text('Tenis');
             } else {
               return LayoutBuilder(
-                builder: (_, constraints){
+                builder: (_, constraints) {
                   return GestureDetector(
                     onTap: () async {
-                      final search = await showDialog<String>(context: context,
+                      final search = await showDialog<String>(
+                          context: context,
                           builder: (_) => SearchDialog(tenisManager.search));
-                      if(search != null){
+                      if (search != null) {
                         tenisManager.search = search;
                       }
                     },
                     child: Container(
-                      width: constraints.biggest.width,
-                      child: Text(
-                        tenisManager.search,
-                        textAlign: TextAlign.center,
-                      )
-                    ),
+                        width: constraints.biggest.width,
+                        child: Text(
+                          tenisManager.search,
+                          textAlign: TextAlign.center,
+                        )),
                   );
                 },
               );
@@ -43,16 +47,17 @@ class TenisScreen extends StatelessWidget {
           },
         ),
         centerTitle: true,
-         actions: <Widget>[
-           Consumer<TenisManager>(
-            builder: (_, tenisManager, __){
-              if(tenisManager.search.isEmpty){
+        actions: <Widget>[
+          Consumer<TenisManager>(
+            builder: (_, tenisManager, __) {
+              if (tenisManager.search.isEmpty) {
                 return IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () async {
-                    final search = await showDialog<String>(context: context,
+                    final search = await showDialog<String>(
+                        context: context,
                         builder: (_) => SearchDialog(tenisManager.search));
-                    if(search != null){
+                    if (search != null) {
                       tenisManager.search = search;
                     }
                   },
@@ -70,18 +75,29 @@ class TenisScreen extends StatelessWidget {
         ],
       ),
       body: Consumer<TenisManager>(
-        builder: (_, tenisManager, __){
+        builder: (_, tenisManager, __) {
           final filteredTenis = tenisManager.filteredTenis;
           return ListView.builder(
-            padding: const EdgeInsets.all(4),
-            //Verifica qual o tamanho do nosso array
-             itemCount: filteredTenis.length,
-            itemBuilder: (_, index){
-              return TenisList(filteredTenis[index]);
-            }
-          );
+              padding: const EdgeInsets.all(4),
+              //Verifica qual o tamanho do nosso array
+              itemCount: filteredTenis.length,
+              itemBuilder: (_, index) {
+                return TenisList(filteredTenis[index]);
+              });
         },
       ),
     );
   }
 }
+/*
+child: RaisedButton(
+  onPressed: tenis.selectedSize != null ? (){
+    if(UserManager.isLoggedIn){
+      context.read<CartManager>().addCart(tenis);
+      Navigator.of(context).pushNamed('/cart');
+    }else{
+      Navigator.of(context).pushNamed('/login');
+    }
+  }
+)
+*/

@@ -1,5 +1,7 @@
+import 'package:appfef/models/cart_manager.dart';
 import 'package:appfef/pages/basescreen.dart';
 import 'package:appfef/pages/cadastrar_tenis.dart';
+import 'package:appfef/pages/cart_screen.dart';
 import 'package:appfef/pages/edit_tenis_screen.dart';
 import 'package:appfef/pages/load_tenis_screen.dart';
 import 'package:appfef/pages/loginscreen.dart';
@@ -19,13 +21,19 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-                  create: (_) => UserManager(),
-                  lazy: false,
+          create: (_) => UserManager(),
+          lazy: false,
         ),
         ChangeNotifierProvider(
-                  create: (_) => TenisManager(),
-                  lazy: false,
-        )
+          create: (_) => TenisManager(),
+          lazy: false,
+        ),
+        ProxyProvider<UserManager, CartManager>(
+          create: (_) => CartManager(),
+          lazy: false,
+          update: (_, userManager, cartManager) =>
+              cartManager..updateUser(userManager),
+        ),
       ],
       child: MaterialApp(
         title: 'appfefvirtual',
@@ -48,3 +56,9 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+/*
+case '/cart':
+  return MaterialPageRoute(
+    builder: (_)=> CartScreen()
+  );
+*/

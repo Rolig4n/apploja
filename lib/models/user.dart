@@ -17,6 +17,7 @@ class User {
   String email;
   String password;
 
+  CollectionReference get cartRefence => firestoreRef.collection('cart');
 //método para salvar todos os dados no banco
   Future<void> saveData() async {
     await Firestore.instance.collection('users').document(id).setData(toMap());
